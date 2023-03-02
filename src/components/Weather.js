@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
-import CitySearch from "./CitySelect";
 import Image from "next/image";
 
 const Weather = ({ selectedCity, onWeatherSelect, weather }) => {
@@ -14,7 +13,6 @@ const Weather = ({ selectedCity, onWeatherSelect, weather }) => {
           `https://api.openweathermap.org/data/2.5/weather?lat=${selectedCity.lat}&lon=${selectedCity.lon}&appid=${KEY}&units=metric`
         );
         let res = response.data;
-        console.log(res);
         return onWeatherSelect(res);
       } catch (error) {
         console.log(error);
@@ -23,13 +21,8 @@ const Weather = ({ selectedCity, onWeatherSelect, weather }) => {
     getWeather();
   }, [selectedCity]);
   let temperatureData;
-  if (
-    weather &&
-    weather.main &&
-    weather.main.temp &&
-    weather.name &&
-    weather.weather
-  ) {
+  console.log(weather)
+  if (Object.keys(weather).length) {
     const currentWeather = weather.weather[0];
     const name = [...new Set([weather.name, selectedCity.name])].join(", ");
     temperatureData = (
